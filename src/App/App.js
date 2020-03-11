@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import { PrivateRoute } from '../_components';
-import { HomePage } from '../HomePage';
+import { UploadPage } from '../UploadPage';
 import { LoginPage } from '../LoginPage';
 
 class App extends React.Component {
@@ -13,7 +13,7 @@ class App extends React.Component {
                     <div className="col-sm-8 col-sm-offset-2">
                         <Router>
                             <div>
-                                <PrivateRoute exact path="/" component={HomePage} />
+                                <PrivateRoute exact path="/" component={UploadPage} />
                                 <Route path="/login" component={LoginPage} />
                             </div>
                         </Router>
