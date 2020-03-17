@@ -9,31 +9,33 @@ class Uploader extends React.Component {
     super(props);
     this.state = {
       bucketName: 's3-dropzone-test',
-      s3: new S3({
-        apiVersion: '2006-03-01',
-        accessKeyId: process.env.REACT_APP_S3_ACCESS_KEY_ID,
-        secretAccessKey: process.env.REACT_APP_S3_SECRET_ACCESS_KEY,
-      })
     };
   }
 
   render() {
-    const getUploadParams = ({ meta: {name} }) => {
+    const getUploadParams = async ({ file, meta: {name} }) => {
+      const s3 = new S3({
+        apiVersion: '2006-03-01',
+        accessKeyId: process.env.REACT_APP_S3_ACCESS_KEY_ID,
+        secretAccessKey: process.env.REACT_APP_S3_SECRET_ACCESS_KEY,
+      });
+
       let params = {
         Bucket: this.state.bucketName,
-        Fields: {key: name}
+        Fields: {
+          key: name
+        }
       };
-      this.state.s3.createPresignedPost(params, function(err, data) {
-        if (err) {
-          console.error("Presigning post data encountered an error: ", err);
-          return '';
+
+      let {fields, url} = s3.createPresignedPost(params);
+      let result = {
+        fields,
+        url: url,
+        headers: {
+          "Access-Control-Allow-Origin": "*"
         }
-        else {
-          console.log("The POST data is ", data);
-          let {fields, url} = data;
-          return {fields, meta: {name}, url: url}
-        }
-      })
+      };
+      return result;
     }
 
     const handleChangeStatus = ({ meta }, status) => {
