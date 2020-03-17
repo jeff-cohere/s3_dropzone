@@ -7,4 +7,8 @@ import {App} from './App';
 import { configureFakeBackend } from './_helpers';
 configureFakeBackend();
 
+// Read environment vars from .env.
+require('dotenv').config();
+
+// Fire it up!
 render(<App />, document.getElementById('root'));

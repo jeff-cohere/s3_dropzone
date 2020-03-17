@@ -11,8 +11,8 @@ class Uploader extends React.Component {
       bucketName: 's3-dropzone-test',
       s3: new S3({
         apiVersion: '2006-03-01',
-        accessKeyId: process.env.S3_ACCESS_KEY_ID,
-        secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+        accessKeyId: process.env.REACT_APP_S3_ACCESS_KEY_ID,
+        secretAccessKey: process.env.REACT_APP_S3_SECRET_ACCESS_KEY,
       })
     };
   }
