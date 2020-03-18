@@ -5,12 +5,6 @@ import S3 from 'aws-sdk/clients/s3';
 import 'react-dropzone-uploader/dist/styles.css';
 
 class Uploader extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      bucketName: 's3-dropzone-test',
-    };
-  }
 
   render() {
     const getUploadParams = async ({ file, meta: {name} }) => {
@@ -18,10 +12,13 @@ class Uploader extends React.Component {
         apiVersion: '2006-03-01',
         accessKeyId: process.env.REACT_APP_S3_ACCESS_KEY_ID,
         secretAccessKey: process.env.REACT_APP_S3_SECRET_ACCESS_KEY,
+        // If we don't specify a region, we get the wrong endpoint back!
+        region: process.env.REACT_APP_S3_REGION
       });
 
+      let bucketName = process.env.REACT_APP_S3_BUCKET_NAME;
       let params = {
-        Bucket: this.state.bucketName,
+        Bucket: bucketName,
         Fields: {
           key: name
         }
